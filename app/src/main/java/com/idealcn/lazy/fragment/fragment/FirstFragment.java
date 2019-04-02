@@ -1,12 +1,9 @@
 package com.idealcn.lazy.fragment.fragment;
 
-import android.support.annotation.Nullable;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.idealcn.lazy.fragment.R;
+import com.idealcn.lazy.fragment.base.BaseLazyFragment;
 
 /**
  * Created by ideal-gn on 2017/9/21.
@@ -20,15 +17,22 @@ public class FirstFragment extends BaseLazyFragment {
         log("FirstFragment: 构造函数");
     }
 
-    @Nullable
+
+
     @Override
-    protected View initLayout(LayoutInflater inflater, ViewGroup container) {
-        return inflater.inflate(R.layout.fragment_first,container,false);
+    protected void lazyLoadData() {
+        log("lazyLoadData: 开始加载FirstFragment的数据");
+       // hasCache = true;
+//        Toast.makeText(getActivity(), "开始加载FirstFragment的数据", Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    protected void loadData() {
-        log("loadData: 开始加载FirstFragment的数据");
-//        Toast.makeText(getActivity(), "开始加载FirstFragment的数据", Toast.LENGTH_SHORT).show();
+    protected void initViews(View root) {
+
+    }
+
+    @Override
+    protected int getLayout() {
+        return R.layout.fragment_first;
     }
 }

@@ -1,4 +1,4 @@
-package com.idealcn.lazy.fragment.fragment;
+package com.idealcn.lazy.fragment.base;
 
 import android.content.Context;
 import android.content.res.Configuration;
@@ -6,23 +6,25 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+
+import com.idealcn.lazy.fragment.base.BaseFragment;
 
 /**
  * Created by ideal-gn on 2017/9/21.
+ * 懒加载的fragment
  */
 
-public abstract class BaseLazyFragment extends Fragment {
+public abstract class BaseLazyFragment extends BaseFragment {
 
     public static final String TAG  = "lazy";
-    /*view是否创建*/
-    protected boolean isViewCreated = false;
+
     /*是否开启懒加载,默认开启*/
     protected boolean useLazyMode = true;
     /*是否开启log*/
     protected  boolean openLog = false;
+    /*当前页面是否缓存了数据*/
+    protected boolean hasCache = false;
 
     public BaseLazyFragment(){
         log("BaseLazyFragment: 构造函数");
@@ -36,14 +38,36 @@ public abstract class BaseLazyFragment extends Fragment {
         this.openLog = openLog;
     }
 
+
+
     //★★★在构造函数之后,onAttach方法前执行.★★★
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
        log("setUserVisibleHint: "+getUserVisibleHint());
-        if (isVisibleToUser&&isViewCreated&&useLazyMode){
-            loadData();
+       loadData();
+    }
+
+    @Override
+    protected void loadData() {
+        loadData(getUserVisibleHint());
+    }
+
+    private void loadData(boolean isVisibleToUser) {
+        /*未创建布局时不加载数据*/
+        if (!isViewCreated)return;
+
+        /*懒加载模式下,只有对用户可见时才加载数据*/
+        if (useLazyMode&&isVisibleToUser){
+            log("   :onActivityCreated: 开始加载数据 ");
+            lazyLoadData();
         }
+        /*不使用懒加载,正常加载数据*/
+        if (!useLazyMode){
+            log("   :onActivityCreated: 开始加载数据 ");
+            lazyLoadData();
+        }
+
     }
 
 
@@ -62,7 +86,7 @@ public abstract class BaseLazyFragment extends Fragment {
     }
 
 
-    @Nullable
+ /*   @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         log("onCreateView");
@@ -71,7 +95,7 @@ public abstract class BaseLazyFragment extends Fragment {
             isViewCreated = true;
         }
         return root;
-    }
+    }*/
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -83,17 +107,6 @@ public abstract class BaseLazyFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
        log(" onActivityCreated ");
-       if (useLazyMode){
-           if (isViewCreated&&getUserVisibleHint()){
-               log("   :onActivityCreated: 开始加载数据 ");
-               loadData();
-           }
-       }else {
-           if (isViewCreated){
-               log("   :onActivityCreated: 开始加载数据 ");
-               loadData();
-           }
-       }
 
     }
 
@@ -108,7 +121,6 @@ public abstract class BaseLazyFragment extends Fragment {
         log("onViewStateRestored");
     }
 
-    protected abstract View initLayout(LayoutInflater inflater, ViewGroup container);
 
 
     @Override
@@ -200,7 +212,7 @@ public abstract class BaseLazyFragment extends Fragment {
 
 
 
-    protected abstract void loadData();
+    protected abstract void lazyLoadData();
 
     protected void log(String methodName){
         if (openLog)

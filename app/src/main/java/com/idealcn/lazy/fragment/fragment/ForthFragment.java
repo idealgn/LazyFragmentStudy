@@ -1,11 +1,10 @@
 package com.idealcn.lazy.fragment.fragment;
 
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.idealcn.lazy.fragment.R;
+import com.idealcn.lazy.fragment.base.BaseLazyFragment;
 
 /**
  * Created by ideal-gn on 2017/9/21.
@@ -21,13 +20,20 @@ public class ForthFragment extends BaseLazyFragment {
 
 
     @Override
-    protected View initLayout(LayoutInflater inflater, ViewGroup container) {
-        return inflater.inflate(R.layout.fragment_forth,container,false);
+    protected void initViews(View root) {
+
     }
 
     @Override
-    protected void loadData() {
-        Log.d(TAG, "loadData: 开始加载ForthFragment的数据");
+    protected int getLayout() {
+        return R.layout.fragment_forth;
+    }
+
+
+    @Override
+    protected void lazyLoadData() {
+        Log.d(TAG, "lazyLoadData: 开始加载ForthFragment的数据");
+       // hasCache = true;
 //        Toast.makeText(getActivity(), "开始加载ForthFragment的数据", Toast.LENGTH_SHORT).show();
     }
 }

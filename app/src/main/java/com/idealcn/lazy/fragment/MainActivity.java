@@ -1,13 +1,16 @@
 package com.idealcn.lazy.fragment;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
-import com.idealcn.lazy.fragment.fragment.BaseLazyFragment;
+import com.idealcn.lazy.NormalActivity;
+import com.idealcn.lazy.fragment.base.BaseLazyFragment;
 import com.idealcn.lazy.fragment.fragment.FirstFragment;
 import com.idealcn.lazy.fragment.fragment.ForthFragment;
 import com.idealcn.lazy.fragment.fragment.SecondFragment;
@@ -45,7 +48,8 @@ public class MainActivity extends AppCompatActivity {
                         fragment = new FirstFragment();
                         break;
                 }
-                fragment.setUseLazyMode(false);
+                fragment.setUseLazyMode(true);
+                fragment.setOpenLog(true);
                 return fragment;
             }
 
@@ -82,5 +86,9 @@ public class MainActivity extends AppCompatActivity {
 
         mViewPager.setCurrentItem(0);
 
+    }
+
+    public void startNormal(View view) {
+        startActivity(new Intent(this, NormalActivity.class));
     }
 }
