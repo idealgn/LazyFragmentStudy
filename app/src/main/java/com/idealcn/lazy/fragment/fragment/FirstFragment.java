@@ -17,11 +17,10 @@ public class FirstFragment extends BaseLazyFragment {
     public static final String TAG = "lazy";
     public FirstFragment(){
 //        super();
-        Log.d(TAG, "FirstFragment: 构造函数");
+        log("FirstFragment: 构造函数");
     }
 
     @Nullable
-
     @Override
     protected View initLayout(LayoutInflater inflater, ViewGroup container) {
         return inflater.inflate(R.layout.fragment_first,container,false);
@@ -29,7 +28,7 @@ public class FirstFragment extends BaseLazyFragment {
 
     @Override
     protected void loadData() {
-        Log.d(TAG, "loadData: 开始加载FirstFragment的数据");
+        log("loadData: 开始加载FirstFragment的数据");
 //        Toast.makeText(getActivity(), "开始加载FirstFragment的数据", Toast.LENGTH_SHORT).show();
     }
 }

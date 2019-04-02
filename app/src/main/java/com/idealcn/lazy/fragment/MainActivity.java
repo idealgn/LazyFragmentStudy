@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
                         fragment = new FirstFragment();
                         break;
                 }
+                fragment.setUseLazyMode(false);
                 return fragment;
             }
 
@@ -61,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mViewPager.setCurrentItem(0);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 mViewPager.setCurrentItem(position);
+                mTitle.setText(mViewPager.getAdapter().getPageTitle(position));
             }
 
             @Override
@@ -78,5 +79,8 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        mViewPager.setCurrentItem(0);
+
     }
 }

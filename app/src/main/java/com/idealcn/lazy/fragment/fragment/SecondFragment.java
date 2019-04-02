@@ -1,5 +1,6 @@
 package com.idealcn.lazy.fragment.fragment;
 
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -42,6 +43,13 @@ public class SecondFragment extends BaseLazyFragment {
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, dataList);
+        listView.setAdapter(adapter);
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
     protected void loadData() {
         Log.d(TAG, "loadData: 开始加载SecondFragment的数据");
 //        Toast.makeText(getActivity(), "开始加载SecondFragment的数据", Toast.LENGTH_SHORT).show();
@@ -55,8 +63,7 @@ public class SecondFragment extends BaseLazyFragment {
     public void onResume() {
         super.onResume();
 
-        adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, dataList);
-        listView.setAdapter(adapter);
+
     }
 
 
